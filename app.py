@@ -17,7 +17,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("Networked Capital Infrastructure")
+st.title("Networked Capital Infrastructure Enterprise Sandbox")
 st.subheader("Peacemedia Software Systems — Evaluation Sandbox")
 st.write("Deploy deterministic capital infrastructure inside your perimeter. Request your 30-day free sandbox trial below. Users remain natively on this interface.")
 

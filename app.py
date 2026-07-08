@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 # --- Page Configuration & Structural Dark Styling ---
-st.set_page_config(page_title="Networked Capital Infrastructure Enterprise Sandbox", page_icon="💼", layout="centered")
+st.set_page_config(page_title="Networked Capital Infrastructure", page_icon="💼", layout="centered")
 
 st.markdown("""
     <style>
@@ -15,7 +15,7 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-st.title("Networked Capital Infrastructure Enterprise Sandbox")
+st.title("Networked Capital Infrastructure")
 st.subheader("Peacemedia Software Systems — Evaluation Sandbox")
 st.write("Deploy deterministic capital infrastructure inside your perimeter. Request your 30-day free sandbox trial below.")
 

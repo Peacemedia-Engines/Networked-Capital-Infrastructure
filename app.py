@@ -1,9 +1,7 @@
 import streamlit as st
-import datetime
-import json
-import os
+import requests
 
-# --- 1. THE ENTERPRISE INTERFACE (Dark Theme) ---
+# --- Page Configuration & Structural Dark Styling ---
 st.set_page_config(page_title="Networked Capital Infrastructure Enterprise Sandbox", page_icon="💼", layout="centered")
 
 st.markdown("""
@@ -19,51 +17,41 @@ st.markdown("""
 
 st.title("Networked Capital Infrastructure Enterprise Sandbox")
 st.subheader("Peacemedia Software Systems — Evaluation Sandbox")
-st.write("Deploy deterministic capital infrastructure inside your perimeter. Request your 30-day free sandbox trial below. Users remain natively on this interface.")
+st.write("Deploy deterministic capital infrastructure inside your perimeter. Request your 30-day free sandbox trial below.")
 
 st.divider()
 
-# --- 2. EMAIL & TRIAL CAPTURE FORM ---
+# --- Integrated Formspree Production Endpoint ---
+FORMSPREE_URL = "https://formspree.io/f/xojozzrr"
+
+# --- User Interface Capture Form ---
 with st.form(key="sandbox_trial_form", clear_on_submit=True):
     email = st.text_input("Corporate Email Address", placeholder="name@institution.com")
     company = st.text_input("Company / Family Office", placeholder="Enterprise Name")
     submit_button = st.form_submit_button(label="Generate Activation Blueprint")
 
-# --- 3. THE PYTHON BACKEND LOGIC (Calculates the 30 Days) ---
+# --- Form Execution & Webhook Transmission ---
 if submit_button:
     if "@" not in email or "." not in email:
         st.error("Please enter a valid corporate email address.")
     elif not company:
         st.error("Please enter your organization name.")
     else:
-        # Calculate precise timestamps
-        start_time = datetime.datetime.now()
-        expiry_time = start_time + datetime.timedelta(days=30)
-        
-        trial_manifest = {
+        # Formulate payload exactly matched to your trial parameters
+        payload = {
             "email": email,
             "company": company,
-            "tier": "Evaluation_Sandbox",
-            "status": "Active",
-            "activated_at": start_time.strftime("%Y-%m-%d %H:%M:%S"),
-            "expires_at": expiry_time.strftime("%Y-%m-%d %H:%M:%S")
+            "tier": "30_Day_Free_Trial_Sandbox",
+            "status": "Active"
         }
         
-        # Save lead to a local JSON file database inside the workspace
-        log_file = "sandbox_testers.json"
-        existing_data = []
-        
-        if os.path.exists(log_file):
-            with open(log_file, "r") as f:
-                try:
-                    existing_data = json.load(f)
-                except json.JSONDecodeError:
-                    existing_data = []
-                    
-        existing_data.append(trial_manifest)
-        
-        with open(log_file, "w") as f:
-            json.dump(existing_data, f, indent=4)
+        try:
+            # Silently route transaction details via HTTP POST to Formspree
+            response = requests.post(FORMSPREE_URL, json=payload, timeout=10)
             
-        # Success message displayed to user while keeping them on the page
-        st.success(f"Success! Your sandbox trial has been provisioned. Expiration set for: {trial_manifest['expires_at']}.")
+            if response.status_code == 200:
+                st.success("Success! Your 30-day sandbox trial has been provisioned. Check your corporate directory email.")
+            else:
+                st.error(f"Ingestion communication lag. Server responded with status code: {response.status_code}")
+        except Exception as e:
+            st.error("Network execution failure. Could not reach routing gateway.")

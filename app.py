@@ -4,7 +4,7 @@ import json
 import os
 
 # --- 1. THE ENTERPRISE INTERFACE (Dark Theme) ---
-st.set_page_config(page_title="Networked Capital Infrastructure", page_icon="💼", layout="centered")
+st.set_page_config(page_title="Networked Capital Infrastructure Enterprise Sandbox", page_icon="💼", layout="centered")
 
 st.markdown("""
     <style>
